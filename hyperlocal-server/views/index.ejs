@@ -13,16 +13,20 @@
 
     <ul id="messages"></ul>
     <form action="">
+        <input id="c" autocomplete="off" value="chat message" /><br/>
         <input id="m" autocomplete="off" /><button>Send</button>
     </form>
 
     <script>
         var socket = io();
         $('form').submit(function(){
-            socket.emit('chat message', $('#m').val());
+            socket.emit($('#c').val(), $('#m').val());
             $('#m').val('');
             return false;
         });
+        window.registerClient = function(data){
+            socket.emit('device.register', data);
+        }
     </script>
 
 </html>
