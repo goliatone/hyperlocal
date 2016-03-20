@@ -30,9 +30,9 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     register: function(){
-        console.log('Register device with uuid', '000000000000000000000000000000003339');
+        console.log('Register device with uuid', 'b9407f30f5f8466eaff925556b57fe6d11');
         var url = 'http://hyperlocal.ngrok.io';
-        socket = io(url, {
+        socket = io.connect(url, {
     		transports: [
     			'polling',
     			'websocket',
@@ -41,17 +41,28 @@ var app = {
     			'jsonp-polling'
     		]
     	});
+
         socket.on('connect', function() {
             console.log('We are connected');
             socket.emit('device.register', {
-                uuid: '000000000000000000000000000000003339'
+                uuid: 'b9407f30f5f8466eaff925556b57fe6d11'
             });
         });
+
+        socket.on('service.found', function(data){
+            console.log('service.found', data);
+            app.showService(data.url);
+        });
+
+        socket.on('service.exited', function(data){
+            app.webview.hide();
+        });
+
         socket.on('error', function(e){
             console.error('Sockete error', e);
         });
+
         socket.connect();
-        app.webview = cordova.EbWebview.open(0,encodeURI('http://hyperlocal.ngrok.io/service'), 'left=0,top=0,width=420,height=800');
     },
     makeBeacon: function(){
         estimote.beacons.requestWhenInUseAuthorization(function(){
@@ -69,6 +80,9 @@ var app = {
                 console.log('Beacon started') },
             function(errorMessage) {
                 console.log('Error starting beacon: ' + errorMessage) });
+    },
+    showService: function(url){
+        app.webview = cordova.EbWebview.open(0, encodeURI(url), 'left=0,top=0,width=420,height=800');
     },
     // deviceready Event Handler
     //
