@@ -32,10 +32,11 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.unarin.cordova.beacon": {
+    "cordova-plugin-estimote": {
         "source": {
-            "type": "registry",
-            "id": "com.unarin.cordova.beacon"
+            "type": "git",
+            "url": "https://github.com/evothings/phonegap-estimotebeacons.git",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}
