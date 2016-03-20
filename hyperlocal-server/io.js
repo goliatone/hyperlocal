@@ -23,8 +23,8 @@ module.exports = function(app, config){
         socket.on('device.add', function(data){
             console.log('We have a visitor', data);
             socket.to(data.uuid).emit('service.found', {
-                url: 'http://hyperlocal.ngrok.io/service',
-                id:'one'
+                id: data.id,
+                services: data.uri
             });
         });
 
