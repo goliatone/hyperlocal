@@ -7,19 +7,19 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        },
-        "cordova-plugin-wkwebview-engine": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
         "cordova-plugin-ebwebview": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         },
-        "com.unarin.cordova.beacon": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-wkwebview-engine": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-estimote": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
         }
     },
