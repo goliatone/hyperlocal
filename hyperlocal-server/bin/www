@@ -33,7 +33,21 @@ server.on('listening', onListening);
 app.server = server;
 
 var io = require('../io');
-io(app, {});
+io(app, {
+    serveClient: true,
+    path: '/socket.io',
+    adapter: 'memory',
+    transports: [
+        'polling',
+        'websocket',
+        'htmlfile',
+        'xhr-polling',
+        'jsonp-polling'
+    ]
+    // origins: '*:*',
+    // allowRequest: function
+
+});
 
 /**
  * Normalize a port into a number, string, or false.
