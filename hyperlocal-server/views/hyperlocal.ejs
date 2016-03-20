@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+  </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="c" autocomplete="off" value="chat message" /><br/>
+        <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script>
+        var socket = io('http://hyperlocal.ngrok.io');
+        $('form').submit(function(){
+            socket.emit($('#c').val(), $('#m').val());
+            $('#m').val('');
+            return false;
+        });
+        socket.on('connect', function(){
+            console.log('connected');
+        });
+        socket.on('error', function(e){
+            conosle.error('socket.error', e);
+        });
+        socket.on('service.found', function(data){
+            console.log('service', data);
+        });
+
+        window.registerClient = function(data){
+            socket.emit('device.register', data);
+        };
+    </script>
+
+</html>
