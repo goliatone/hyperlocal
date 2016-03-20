@@ -5,10 +5,13 @@ module.exports = function(app, config){
     io = require('socket.io')(server);
 
     io.on('connection', function(socket){
-        console.log('connection');
+        console.log('connection', Object.keys(socket));
 
         socket.on('device.register', function(data){
             console.log('device registered', data);
+            socket.emit('service.found', {
+                url: 'http://hyperlocal.ngrok.io/service'
+            })
         });
 
         socket.on('disconnect', function(){
@@ -18,7 +21,7 @@ module.exports = function(app, config){
         socket.on('chat message', function(msg){
             console.log('message: ' + msg);
         });
-        
+
         socket.on('device.add', function(data){
             console.log('We have a visitor', data);
 
