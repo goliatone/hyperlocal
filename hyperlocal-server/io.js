@@ -5,17 +5,15 @@ module.exports = function(app, config){
     io = require('socket.io')(server);
 
     io.on('connection', function(socket){
-        console.log('connection', Object.keys(socket));
+        console.log('socket connected');
 
         socket.on('device.register', function(data){
             console.log('device registered', data);
-            socket.emit('service.found', {
-                url: 'http://hyperlocal.ngrok.io/service'
-            })
+            socket.join(data.uuid);
         });
 
         socket.on('disconnect', function(){
-            console.log('user disconnected');
+            console.log('socket disconnected');
         });
 
         socket.on('chat message', function(msg){
@@ -24,11 +22,17 @@ module.exports = function(app, config){
 
         socket.on('device.add', function(data){
             console.log('We have a visitor', data);
-
+            socket.to(data.uuid).emit('service.found', {
+                url: 'http://hyperlocal.ngrok.io/service',
+                id:'one'
+            });
         });
 
         socket.on('device.remove', function(data){
             console.log('We\'ve lost a visitor', data);
+            socket.to(data.uuid).emit('service.exited', {
+                id:'one'
+            });
         });
     });
 };
