@@ -24,4 +24,9 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <engine name="ios" spec="~4.0.1" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 </widget>
