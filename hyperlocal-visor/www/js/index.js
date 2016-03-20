@@ -31,7 +31,6 @@ var app = {
     },
     register: function(){
         console.log('Register device with uuid', '000000000000000000000000000000003339');
-        console.log('sockete', io);
         var url = 'http://hyperlocal.ngrok.io';
         socket = io(url, {
     		transports: [
@@ -54,6 +53,23 @@ var app = {
         socket.connect();
         app.webview = cordova.EbWebview.open(0,encodeURI('http://hyperlocal.ngrok.io/service'), 'left=0,top=0,width=420,height=800');
     },
+    makeBeacon: function(){
+        estimote.beacons.requestWhenInUseAuthorization(function(){
+            console.log('Yup!');
+        }, function(e){
+            console.error('requestWhenInUseAuthorization', e);
+        });
+
+        estimote.beacons.startAdvertisingAsBeacon(
+            'B9407F30-F5F8-466E-AFF9-25556B57FE6D', // UUID
+            1, // Major
+            1, // Minor
+            'MyRegion', // Region name (not visible?)
+            function(result) {
+                console.log('Beacon started') },
+            function(errorMessage) {
+                console.log('Error starting beacon: ' + errorMessage) });
+    },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
@@ -61,6 +77,7 @@ var app = {
     onDeviceReady: function() {
         console.log('On Device Ready')
         app.register();
+        app.makeBeacon();
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -78,6 +95,9 @@ var app = {
 
 app.initialize();
 
+
+
+/*
 //com.unarin.cordova.beacon
 
 var uuid = '00000000-0000-0000-0000-000000000000';
@@ -89,7 +109,7 @@ var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, 
 /*
  * Request iBeacon permissions
  * For iOS 8 or higher
- */
+ * /
 cordova.plugins.locationManager.requestWhenInUseAuthorization();
 // cordova.plugins.locationManager.requestAlwaysAuthorization();
 
@@ -129,3 +149,4 @@ cordova.plugins.locationManager.isAdvertisingAvailable()
         console.error(arguments);
     });
     .done();
+*/
