@@ -62,20 +62,19 @@ bleacon.on('discover', function(beacon) {
 
 eventEmitter.on('beaconCheckIn', function(beacon){
     console.log('Check in');
-    socket.emit('device.check-in', getPayload(beacon));
-});
-
-eventEmitter.on('beaconIsNear', function(beacon) {
     if(insideBeacons.length && isAlreadyInside(beacon)){
         return console.log('Beacon already registered');
     }
     // Start situation, nobody is connected
     // Add the beacon to the array of people that is inside
     insideBeacons.push(beacon.UUID);
-    socket.emit('device.near', getPayload(beacon));
     console.log('Currently we have ', insideBeacons);
+    socket.emit('device.check-in', getPayload(beacon));
 });
 
+eventEmitter.on('beaconIsNear', function(beacon) {
+    socket.emit('device.near', getPayload(beacon));
+});
 
 eventEmitter.on('beaconIsFar', function(beacon) {
     insideBeacons.forEach(function(insideBeacon) {
@@ -95,6 +94,7 @@ function getPayload(beacon){
     return {
         id: SPACE_ID,
         uuid: beacon.UUID,
+        range: beacon.range,
         services: SERVICES,
         space: SPACE_UUID,
         device: DEVICE_UUID
@@ -106,7 +106,7 @@ function getPayload(beacon){
 /////////////////////////
 socket = require('socket.io-client')('http://hyper-local.ngrok.io');
 socket.on('connect', function(){
-    console.log('connect');
+    console.log('connect', socket.id);
 });
 
 socket.on('event', function(data){
