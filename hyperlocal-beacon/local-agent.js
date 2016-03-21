@@ -79,7 +79,7 @@ eventEmitter.on('beaconIsNear', function(beacon) {
 
 eventEmitter.on('beaconIsFar', function(beacon) {
     insideBeacons.forEach(function(insideBeacon) {
-        if (insideBeacons !== beacon.UUID) return;
+        if (insideBeacon !== beacon.UUID) return;
             var index = insideBeacons.indexOf(insideBeacon);
             if (index > -1) {
                 beacons[beacon.UUID] = undefined;
@@ -126,11 +126,9 @@ function isAlreadyInside(beacon) {
     var isIn = false;
     insideBeacons.forEach(function(insideBeacon) {
         // Check if it wasn't already in
-        if (insideBeacon == beacon.UUID) {
-            isIn = true;
-        }
-        return isIn;
+        if (insideBeacon === beacon.UUID) isIn = true;
     });
+    return isIn;
 }
 
 // Check the server response TODO something if err
