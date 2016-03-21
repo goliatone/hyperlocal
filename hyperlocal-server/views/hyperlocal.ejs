@@ -23,6 +23,7 @@
         $('form').submit(function(){
             socket.emit($('#c').val(), $('#m').val());
             $('#m').val('');
+            console.log('emit', $('#c').val(), $('#m').val());
             return false;
         });
         socket.on('connect', function(){
@@ -38,6 +39,19 @@
         window.registerClient = function(data){
             socket.emit('device.register', data);
         };
+
+        window.forceVisit = function(data){
+            var def = {
+                uuid: 'b9407f30f5f8466eaff925556b57fe6d11',
+                services: 'http://10.31.77.101'
+            };
+            if(data && data.uuid) def.uuid = data.uuid;
+            if(data && data.services) def.services = data.services;
+            console.log('emit', def);
+
+            socket.emit('dev.force.presence', def);
+        };
+        window.socket = socket;
     </script>
 
 </html>
