@@ -63,13 +63,14 @@ bleacon.on('discover', function(beacon) {
 
 eventEmitter.on('beaconCheckIn', function(beacon){
     console.log('Check in');
-    if(insideBeacons.length && isAlreadyInside(beacon)){
-        return console.log('Beacon already registered');
+
+    if(insideBeacons.length === 0 && !isAlreadyInside(beacon)){
+        insideBeacons.push(beacon.UUID);
+        console.log('Currently we have ', insideBeacons);
     }
+
     // Start situation, nobody is connected
     // Add the beacon to the array of people that is inside
-    insideBeacons.push(beacon.UUID);
-    console.log('Currently we have ', insideBeacons);
     socket.emit('device.check-in', getPayload(beacon));
 });
 
