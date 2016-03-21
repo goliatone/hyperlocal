@@ -20,7 +20,6 @@ bleacon.startScanning();
 // Store the beacons that are inside
 var insideBeacons = [];
 var beacons = {};
-
 /**
  * Main process to monitor all beacons seen by
  * our device.
@@ -34,7 +33,9 @@ bleacon.on('discover', function(beacon) {
     }
 
     if(UUID === 'b9407f30f5f8466eaff925556b57fe6d11'){
+        if(beacons.last === beacon.proximity) return;
         console.log('UUID', UUID, beacon.proximity);
+        beacons.last = beacon.proximity;
     }
 
     //We have actually checked in with the beacon, like a swipe.
